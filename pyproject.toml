@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "nz-covid-scanner"
+version = "0.1.0"
+description = ""
+authors = ["Sean McGrath <sean@mcgrath.net.nz>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+"RPi.GPIO" = {version = "^0.7.1*", allow-prereleases = true}
+"luma.led_matrix" = "^1.5.0"
+cryptography = "3.3.2"
+cwt = "^1.4.2"
+requests = "^2.26.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
