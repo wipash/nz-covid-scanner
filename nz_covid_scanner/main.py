@@ -153,7 +153,12 @@ if __name__ == "__main__":
         s = scanner.readline()
         if s:
             try:
-                print(validate_verifiable_claim(decode_qr(s, keys)["vc"]))
+                covid_pass = decode_qr(s, keys)
+                subject = validate_verifiable_claim(covid_pass["vc"])
+                print("-----= Valid Pass =-----")
+                print(f'Name: {subject["givenName"]} {subject["familyName"]}')
+                print(f'DOB:  {subject["dob"]}')
+                print("------------------------")
                 led.write_text(" \3\3")
             except Exception as e:
                 print(e)
