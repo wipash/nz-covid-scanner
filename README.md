@@ -38,6 +38,7 @@ sudo /home/pi/fbcp-ili9341/build/fbcp-ili9341 &
 # Enable SPI in raspi-config
 sudo usermod -a -G spi,gpio,dialout your-username
 sudo apt install build-essential gcc python3-dev python3-pip libfreetype6-dev libjpeg-dev libopenjp2-7 libtiff5 libffi-dev libssl-dev
+sudo apt install libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev libsdl2-image-dev libportmidi-dev
 
 curl -sSL https://install.python-poetry.org | python3 -
 
