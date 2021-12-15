@@ -36,19 +36,21 @@ class CovidQR:
     }
 
     def __init__(self):
+        self.keys = None
+
+    def get_latest_keys(self):
         try:
             did = self.get_did_from_url()
             self.keys = self.get_verification_keys(did)
-        except:
-            print("Couldn't get keys, using built-in defaults")
-            self.keys = self.get_default_keys()
+        except Exception as e:
+            print(e)
+            if not self.keys:
+                self.keys = self.get_default_keys()
+            raise e
 
     def get_did_from_url(self):
-        try:
-            r = requests.get(self.DID_URL)
-            r.raise_for_status()
-        except Exception:
-            print("Got exception fetching DID")
+        r = requests.get(self.DID_URL)
+        r.raise_for_status()
         return r.json()
 
     def get_verification_keys(self, did):

@@ -4,7 +4,10 @@ import time
 import pygame
 
 # Delay for screen to reset to normal after displaying scan results
-SCREEN_RESET_TIMEOUT = 5000
+SCREEN_RESET_TIMEOUT = 5 * 1000
+
+# Delay for getting new keys from MoH
+UPDATE_KEYS_TIMEOUT = 1 * 60 * 60 * 1000
 
 
 def run():
@@ -23,6 +26,15 @@ def run():
     print("Loading")
 
     qr = CovidQR()
+    try:
+        display.set_system_message("Updating keys from MoH")
+        display.update()
+        qr.get_latest_keys()
+    except Exception as e:
+        display.set_system_message("Error updating keys")
+        display.update()
+        pygame.time.wait(10000)
+
     scanner = Scanner()
 
     while not scanner.init_scanner():
@@ -37,6 +49,11 @@ def run():
 
     main_loop = True
 
+    reset_event = pygame.USEREVENT + 1
+    update_keys_event = pygame.USEREVENT + 2
+
+    pygame.time.set_timer(update_keys_event, UPDATE_KEYS_TIMEOUT)
+
     while main_loop:
         s = scanner.readline()
         if s:
@@ -44,19 +61,26 @@ def run():
                 covid_pass = qr.decode_qr(s)
                 subject = qr.validate_verifiable_claim(covid_pass["vc"])
                 display.valid_pass(subject)
-                pygame.time.set_timer(pygame.USEREVENT, SCREEN_RESET_TIMEOUT, 1)
+                pygame.time.set_timer(reset_event, SCREEN_RESET_TIMEOUT, 1)
                 print("-----= Valid Pass =-----")
                 print(f'Name: {subject["givenName"]} {subject["familyName"]}')
                 print(f'DOB:  {subject["dob"]}')
                 print("------------------------")
             except Exception as e:
                 display.invalid_pass(message=str(e))
-                pygame.time.set_timer(pygame.USEREVENT, SCREEN_RESET_TIMEOUT, 1)
+                pygame.time.set_timer(reset_event, SCREEN_RESET_TIMEOUT, 1)
                 print(e)
         for e in pygame.event.get():
-            if e.type == pygame.USEREVENT:
+            if e.type == reset_event:
                 print("Reset display")
                 display.reset()
+            if e.type == update_keys_event:
+                try:
+                    qr.get_latest_keys()
+                except Exception as e:
+                    display.set_system_message("Error updating keys")
+                    display.update()
+                    pygame.time.wait(10000)
             if e.type == pygame.QUIT:
                 main_loop = False
 
