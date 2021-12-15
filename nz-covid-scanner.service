@@ -1,0 +1,11 @@
+[Unit]
+Description=Start NZ Covid Scanner
+After=graphical.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/pi/nz-covid-scanner
+ExecStart=/home/pi/nz-covid-scanner/run.sh
+
+[Install]
+WantedBy=graphical.target

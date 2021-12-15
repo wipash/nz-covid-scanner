@@ -45,6 +45,14 @@ curl -sSL https://install.python-poetry.org | python3 -
 poetry install
 ```
 
+### Set up service
+```bash
+mkdir -p ~/.config/systemd/user
+cp nz-covid-scanner.service ~/.config/systemd/user/nz-covid-scanner.service
+systemctl --user enable nz-covid-scanner.service
+systemctl --user start nz-covid-scanner.service
+```
+
 This project is based on the work of:
  - https://github.com/zendamacf/nz-vaccine-pass-verify
  - https://github.com/nz-covid-pass/python-nz-covid-pass
