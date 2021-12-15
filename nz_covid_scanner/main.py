@@ -4,7 +4,7 @@ import time
 import pygame
 
 # Delay for screen to reset to normal after displaying scan results
-SCREEN_RESET_TIMEOUT = 5 * 1000
+SCREEN_RESET_TIMEOUT = 60 * 1000
 
 # Delay for getting new keys from MoH
 UPDATE_KEYS_TIMEOUT = 1 * 60 * 60 * 1000
