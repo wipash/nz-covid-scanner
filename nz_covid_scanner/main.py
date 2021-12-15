@@ -3,6 +3,9 @@ from display import Display
 import time
 import pygame
 
+# Delay for screen to reset to normal after displaying scan results
+SCREEN_RESET_TIMEOUT = 5000
+
 
 def run():
     from scanner import Scanner
@@ -41,14 +44,14 @@ def run():
                 covid_pass = qr.decode_qr(s)
                 subject = qr.validate_verifiable_claim(covid_pass["vc"])
                 display.valid_pass(subject)
-                pygame.time.set_timer(pygame.USEREVENT, 5000, 1)
+                pygame.time.set_timer(pygame.USEREVENT, SCREEN_RESET_TIMEOUT, 1)
                 print("-----= Valid Pass =-----")
                 print(f'Name: {subject["givenName"]} {subject["familyName"]}')
                 print(f'DOB:  {subject["dob"]}')
                 print("------------------------")
             except Exception as e:
                 display.invalid_pass(message=str(e))
-                pygame.time.set_timer(pygame.USEREVENT, 5000, 1)
+                pygame.time.set_timer(pygame.USEREVENT, SCREEN_RESET_TIMEOUT, 1)
                 print(e)
         for e in pygame.event.get():
             if e.type == pygame.USEREVENT:
