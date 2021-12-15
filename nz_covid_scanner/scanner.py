@@ -8,7 +8,7 @@ class Scanner:
 
     def init_scanner(self):
         try:
-            self.scanner = serial.Serial(self.dev, rtscts=True, dsrdtr=True, timeout=10)
+            self.scanner = serial.Serial(self.dev, rtscts=True, dsrdtr=True, timeout=1)
             self.scanner.baudrate = self.baudrate
             return True
         except:

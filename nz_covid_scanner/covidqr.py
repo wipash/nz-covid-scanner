@@ -121,7 +121,12 @@ class CovidQR:
         except Exception as e:
             raise exceptions.InvalidPayload("Invalid base32 payload") from e
 
-        qrcode_cwt = cwt.decode(qrcode_payload, keys=self.keys, no_verify=True)
+        try:
+            qrcode_cwt = cwt.decode(qrcode_payload, keys=self.keys, no_verify=True)
+        except cwt.VerifyError as e:
+            raise exceptions.InvalidSignature("Pass has an invalid signature") from e
+        except Exception as e:
+            raise exceptions.InvalidPayload("Pass is invalid") from e
 
         readable = cwt.Claims.new(qrcode_cwt)
         jti = self.get_jti(readable.get(7))
@@ -135,8 +140,8 @@ class CovidQR:
         }
 
         if claim["nbf"] > int(time.time()):
-            raise exceptions.PassNotActive("Pass not active yet")
+            raise exceptions.PassNotActive("Pass is not active yet")
         elif claim["exp"] < int(time.time()):
-            raise exceptions.PassExpired("Pass expired")
+            raise exceptions.PassExpired("Pass has expired")
 
         return claim
