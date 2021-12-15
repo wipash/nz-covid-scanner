@@ -5,7 +5,7 @@ import re
 import cwt
 import requests
 
-import exceptions
+import nz_covid_scanner.exceptions as exceptions
 
 
 class CovidQR:

@@ -1,5 +1,5 @@
-from covidqr import CovidQR
-from display import Display
+from nz_covid_scanner.covidqr import CovidQR
+from nz_covid_scanner.display import Display
 import time
 import pygame
 
@@ -11,7 +11,7 @@ UPDATE_KEYS_TIMEOUT = 1 * 60 * 60 * 1000
 
 
 def run():
-    from scanner import Scanner
+    from nz_covid_scanner.scanner import Scanner
 
     pygame.init()
 

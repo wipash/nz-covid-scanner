@@ -1,14 +1,14 @@
 import pygame
 from PIL import Image
 from pygame.locals import *
-from images import (
+from nz_covid_scanner.images import (
     load_images,
     HOLMES_IMAGE,
     BG_IMAGE_NORMAL,
     BG_IMAGE_SUCCESS,
     BG_IMAGE_FAIL,
 )
-from fonts import ROBOTO_REGULAR_FONT
+from nz_covid_scanner.fonts import ROBOTO_REGULAR_FONT
 
 
 class Display:
