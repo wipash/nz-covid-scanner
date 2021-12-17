@@ -38,8 +38,7 @@ def run():
     scanner = Scanner()
 
     while not scanner.init_scanner():
-        print("Couldn't load scanner")
-        display.set_system_message("Couldn't load scanner")
+        display.set_system_message("Couldn't connect to scanner")
         display.update()
         time.sleep(1)
 
